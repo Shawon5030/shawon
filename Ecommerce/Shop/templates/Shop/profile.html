@@ -1,0 +1,105 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    <h3 class="text-center mb-4">Welcome, <span class="text-capitalize">{{ request.user }}</span></h3>
+    <div class="row">
+        <div class="col-sm-2 border-end  profile-button-off">
+            <ul class="list-unstyled">
+                <li class="d-grid mb-2"><a href="{% url 'profile' %}" class="btn text-primary btn-outline-primary btn btn-primary">Profile</a></li>
+                <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-outline-primary">Address</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-8 offset-sm-1 shadow  profile-shadow">
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    {% for fm in form %}
+                    <div class="form-group col-lg-5 mb-3"> 
+                        {{ fm.label_tag }} 
+                        {{ fm }} 
+                        <small class='text-danger'>{{ fm.errors|striptags }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                </div>
+
+                {% if messages %}
+                <div class="col-12">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} mb-4" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </form>
+            <div class="col-sm-2  border-end in-small">
+                <ul class="list-unstyled w-50 in-small">
+                    <li class="d-grid "><a href="{% url 'profile' %}" class="btn text-white btn-outline-primary  bg-primary">Go to Profile</a></li>
+                    <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-outline-primary">Go to Address</a></li>
+                </ul>
+            </div>
+
+            
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<style>
+    .btn-outline-primary {
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .in-small{
+        display: none;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff; /* Change to your theme color */
+        color: #fff;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da; /* Default Bootstrap border */
+        border-radius: 0.25rem; /* Standard Bootstrap border radius */
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap focus shadow */
+        border-color: #007bff; /* Focus border color */
+    }
+    @media only screen and (max-width: 600px) {
+        .profile-shadow{
+
+            margin-right: 1rem;
+
+        }
+        .list-unstyled{
+            width: 25%;
+            position: relative;
+            bottom: 0px;
+            left: 0px;
+        }
+
+        .in-small{
+            display: block;
+            width: 100%;
+            display: flex;
+            gap: .5em;
+        }
+        .profile-button-off{
+            display: none;
+        }
+      }
+</style>
+{% endblock main-content %}

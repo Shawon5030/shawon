@@ -1,0 +1,135 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Home | aiQuest Fashion{% endblock title %}
+
+{% block banner_slider %}
+<!-- Banner Slider -->
+<div id="carouselExampleControls" class="carousel slide mb-5 shadow" data-bs-ride="carousel">
+    <div class="carousel-inner mt-2">
+        {% for i in banners %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ i.banner_image.url }}" class="d-block w-100 rounded-3 shadow" alt="Banner Image">
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+{% endblock banner_slider %}
+
+{% block livesale %}
+
+{% endblock livesale %}
+
+{% block main-content %}
+<!-- All Products Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #4B0082;">Our Featured Products</h2>
+    <div class="row gy-4">
+        {% for product in all_product %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="product-card shadow-lg">
+                <a href="{% url 'product-detail' product.id %}" class="text-decoration-none">
+                    <img src="{{ product.product_image.url }}" class="img-fluid rounded-top" alt="{{ product.title }}">
+                    <div class="product-info mt-3 px-3 pb-3 text-center">
+                        <h5 class="product-title text-dark">{{ product.title |truncatechars:15 }}</h5>
+                        <p class="price text-success">Tk. {{ product.discounted_price }}
+                            {% if product.selling_price %}
+                            <span class="text-muted text-decoration-line-through ms-2">Tk. {{ product.selling_price }}</span>
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'product-detail' product.id %}" class="btn btn-view-details text-white btn btn-warning">View Details</a>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main-content %}
+
+<style>
+    /* Carousel */
+    .carousel .carousel-inner {
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Live Sale Section with Gradient */
+    .live-sale-section {
+        background: linear-gradient(45deg, #4B0082, #8A2BE2);
+        border-radius: 8px;
+    }
+
+    /* Product Card Styles */
+    .product-card {
+        background: linear-gradient(to bottom right, #ffffff, #f1f1f1);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #ddd;
+    }
+    .product-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Product Image */
+    .product-card img {
+        transition: transform 0.3s ease;
+        height: 250px;
+        object-fit: cover;
+        width: 100%;
+    }
+    .product-card:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Product Info */
+    .product-info {
+        padding: 15px;
+    }
+    .product-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4B0082;
+        text-transform: uppercase;
+    }
+    .price {
+        font-size: 1.2rem;
+        color: #28a745;
+        font-weight: 700;
+    }
+
+    /* View Details Button with Gradient */
+    .btn-view-details {
+        background: linear-gradient(45deg, #4B0082, #6A0DAD);
+        border: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-view-details:hover {
+        background: linear-gradient(45deg, #6A0DAD, #8A2BE2);
+        color: #fff;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .product-card img {
+            height: 150px;
+        }
+        .price {
+            font-size: 1rem;
+        }
+       
+    }
+</style>

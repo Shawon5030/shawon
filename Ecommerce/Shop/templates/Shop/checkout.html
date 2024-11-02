@@ -1,0 +1,92 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 mb-4">
+            <h4 class="mb-4">Order Summary</h4>
+            <div class="card">
+                <div class="card-body">
+                    {% for i in carts %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <h5>Product: {{ i.product.title }}</h5>
+                        <p>Quantity: {{ i.quantity }}</p>
+                        <p class="fw-bold">Price: <span class="text-success">${{ i.product.discounted_price }}</span></p>
+                        <p class="fw-bold">Total Price: <span class="text-danger">${{ i.total_price }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card border-danger mt-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Total Price</h5>
+                    <p class="fw-bold" style="font-size: 1.25rem;">
+                        Total Amount: <span class="text-primary">${{ total }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-12 offset-lg-1">
+            <h4 class="mb-4">Select Shipping Address</h4>
+            <form action="/payment">
+                {% if c %}
+                {% for c in c %}
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">{{ request.user }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Name:</strong> {{ c.name }}</p>
+                        <p><strong>Division:</strong> {{ c.division }}</p>
+                        <p><strong>District:</strong> {{ c.district }}</p>
+                        <p><strong>Thana:</strong> {{ c.thana }}</p>
+                        <p><strong>Village/Road:</strong> {{ c.villorroad }}</p>
+                        <p><strong>Zip Code:</strong> {{ c.zipcode }}</p>
+                    </div>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="address" id="address{{ forloop.counter }}" value="{{ c.id }}">
+                    <label class="form-check-label" for="address{{ forloop.counter }}">
+                        Address: {{ forloop.counter }}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-start gap-2 mt-3">
+                    <button type="submit" class="btn btn-warning fw-bold px-4">Continue</button>
+                    <a href="{% url 'profile' %}" class="btn btn-primary fw-bold px-4">Add New Address</a>
+                </div>
+                {% else %}
+                <p>You have no address for order product.</p>
+                <div class="text-end">
+                    <a href="{% url 'profile' %}" class="btn btn-primary fw-bold px-5">Add Address</a>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-warning {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #ffc107; /* Adjust hover color */
+        color: #fff; /* Change text color on hover */
+    }
+
+    .btn-primary {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #007bff; /* Adjust hover color */
+        color: #fff; /* Change text color on hover */
+    }
+</style>
+{% endblock main-content %}

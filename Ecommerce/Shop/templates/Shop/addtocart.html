@@ -1,0 +1,113 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h1 class="text-center mb-5" style="color: #333;">Shopping Cart</h1>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 style="color: #007bff;">Cart</h3>
+                    <div class="row" id="image_show_em" style="display:none">
+                        <h3 class="text-center">You have no product in your cart</h3>
+                        <div class="text-center">
+                            <img src="{% static 'Shop/images/emptycart.png' %}" alt="" class="img-fluid img-thumbnail w-25">
+                        </div>
+                    </div>
+                    {% for cart in carts %}
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-3 text-center align-self-center">
+                            <img src="{{cart.product.product_image.url}}" alt="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"> 
+                        </div>
+                        <div class="col-sm-9">
+                            <div>
+                                <h5 style="color: #17a2b8;">{{cart.product.title}}</h5>
+                                <p class="mb-2 small" style="color: #6c757d;">{{cart.product.description}}</p>
+                                <div class="my-3">
+                                    <label for="quantity" class="d-none"></label>
+                                    <a class="minus-cart btn" pid="{{cart.product.id}}" style="color: #dc3545;">
+                                        <i class="fas fa-minus-square fa-lg"></i>
+                                    </a>
+                                    <span id="quantity" style="color: #20c997; font-weight: bold;">{{cart.quantity}}</span>
+                                    <a class="plus-cart btn" pid="{{cart.product.id}}" style="color: #28a745;">
+                                        <i class="fas fa-plus-square fa-lg"></i>
+                                    </a>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a class="remove-cart btn btn-danger text-white" pid="{{cart.product.id}}" style="color: #ffc107;">
+                                        <i class="fas fa-trash"></i> Remove item
+                                    </a>
+                                    <p class="mb-0"><span style="color: #28a745; font-weight: bold;">Tk. {{cart.product.discounted_price}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="card off_cart">
+                <div class="card-body">
+                    <h3 style="color: #333;">Order Summary</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0" style="color: #007bff;">
+                            Amount<span style="color: #17a2b8;">Tk. <span id="amount">{{amount}}</span></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0" style="color: #dc3545;">
+                            Shipping<span style="color: #28a745;">Tk. 100.00</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                            <div style="color: #333;">
+                                <strong>Total</strong> <small>(including VAT)</small>
+                            </div>
+                            <span style="color: #ffc107;"><strong>Tk. <span id="totalamount">{{totalamount}}</span></strong></span>
+                        </li>
+                    </ul>
+                    <div class="d-grid">
+                        <a href="{% url 'checkout' %}" class="btn Place btn-primary" style="background-color: #007bff; border-color: #007bff; color: #fff;">Place Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock main-content %}
+
+<style>
+
+    /* Custom colorful hover effects */
+    .btn:hover {
+        background : transparent
+    }
+
+    .plus-cart:hover {
+        color: #218838 !important;
+        background-color: transparent;
+    }
+
+    .minus-cart:hover {
+        color: #c82333 !important;
+        background-color: #f8d7da;
+    }
+
+    .remove-cart:hover {
+        color: #856404 !important;
+        background-color:transparent;
+    }
+
+    /* Card shadow effect */
+    .card {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        border-radius: 10px;
+    }
+
+    .list-group-item {
+        border-radius: 5px;
+    }
+</style>

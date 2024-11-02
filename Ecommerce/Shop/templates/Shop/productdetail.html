@@ -1,0 +1,148 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Product Detail | aiQuest Fashion{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row g-4">
+        <!-- Product Image Section -->
+        <div class="col-12 col-md-6 text-center align-self-center">
+            <img src="{{ product.product_image.url }}" alt="{{ product.title }}" class="img-fluid img-thumbnail  rounded" style="max-width: 100%; border-radius: 10px;">
+        </div>
+
+        <!-- Product Details Section -->
+        <div class="col-12 col-md-6">
+            <div class="product-details bg-light p-4  rounded" >
+                <h2 class="product-title text-primary">{{ product.title }}</h2>
+                <hr>
+                
+                <p class="product-description text-muted">{{ product.description }}</p>
+                <h4 class="product-price text-success">
+                    Tk. {{ product.discounted_price }}
+                    <small class="text-muted text-decoration-line-through ms-2">Tk. {{ product.selling_price }}</small>
+                </h4>
+                
+                <!-- Add to Cart & Buy Now Buttons -->
+                <div class="d-flex align-items-center mt-4">
+                    <form action="/add-to-cart" method="get" class="d-inline me-3">
+                        <input type="hidden" name="prod_id" value="{{ product.id }}">
+                        <button type="submit" class="btn btn-primary shadow px-4 py-2" style="border-radius: 25px;">Add to Cart</button>
+                    </form>
+                    
+                    <a href="{% url 'buy-now' %}" class="btn btn-danger shadow px-4 py-2" style="border-radius: 25px;">Buy Now</a>
+                </div>
+
+                <!-- Available Offers Section -->
+                <h5 class="mt-5 text-primary">Available Offers</h5>
+                <ul class="offers-list">
+                    <li>Bkash Offer: 5% Unlimited Cashback on Payment</li>
+                    <li>Special Price: Get extra Tk. 5000 off (inclusive of discount)</li>
+                    <li>Partner Offer: Tk. 1000 Gift Card on Every 1000th Transaction with Bkash, Nagad.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
+
+<style>
+    /* Product Detail Styles */
+    .product-details {
+        background: linear-gradient(to bottom right, #ffffff, #f9f9f9);
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        transition: box-shadow 0.3s ease;
+        overflow: hidden; /* Ensures shadow is contained within the border */
+    }
+
+    .product-details:hover {
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .product-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #6c757d;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .offers-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+    }
+    .offers-list li {
+        font-size: 0.9rem;
+        color: #343a40;
+        padding: 5px 0;
+    }
+
+    /* Button Styles */
+    .btn-primary, .btn-danger {
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 10px 30px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+  
+    /* Product Detail Styles */
+.product-details {
+    background: linear-gradient(to bottom right, #ffffff, #f9f9f9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow with lower opacity */
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.product-details:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+}
+/* Button Styles */
+.btn-primary, .btn-danger {
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 10px 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover Effect for Add to Cart Button */
+.btn-primary:hover {
+    background: linear-gradient(45deg, #bca614, #ff004c); /* Blue gradient */
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Hover Effect for Buy Now Button */
+.btn-danger:hover {
+    background:transparent !important; /* Red gradient */
+    
+}
+
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .product-title {
+            font-size: 1.5rem;
+        }
+        .product-price {
+            font-size: 1.25rem;
+        }
+        .offers-list li {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+

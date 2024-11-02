@@ -1,0 +1,70 @@
+{% extends 'Shop/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <h3 class="text-center mb-4 d-block ml-2">Welcome to ShopNow</h3>
+    <div class="row">
+        <!-- Sidebar for Orders Link -->
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid mb-3">
+                    <a href="{% url 'profile' %}" class="btn btn-outline-primary fw-bold">Profile</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content Section -->
+        <div class="col-sm-9 offset-sm-1">
+            <div class="row">
+                {% for i in ab %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm hover-shadow">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">{{ i.product.title }}</h4>
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="{{ i.product.product_image.url }}" width="150px" height="150px" class="img-thumbnail me-3" alt="{{ i.product.title }}">
+                                <div>
+                                    <p class="mb-1"><strong>Order placed on:</strong> {{ i.ordered_date }}</p>
+                                    <p class="mb-1"><strong>Total amount:</strong> <span class="text-info fw-bold">${{ i.total_price }}</span></p>
+                                    <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">{{ i.status }}</span></p>
+                                    
+                                    <!-- Order Progress Bar -->
+                                    <div class="progress mt-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ i.get_status_progress }}%;" 
+                                             aria-valuenow="{{ i.get_status_progress }}" aria-valuemin="0" aria-valuemax="100">
+                                             {{ i.status }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No orders found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow {
+        transition: box-shadow 0.3s ease;
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .progress {
+        height: 1.5rem;
+    }
+
+    .progress-bar {
+        font-weight: bold;
+    }
+</style>
+{% endblock main-content %}
